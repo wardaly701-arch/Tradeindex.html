@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tradee App | Trade & Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            background-color: #0f051d;
+            color: #e0d7f2;
+            font-family: 'Inter', sans-serif;
+        }
+        .purple-gradient {
+            background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%);
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .trading-chart {
+            height: 300px;
+            background: repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(109, 40, 217, 0.1) 40px, rgba(109, 40, 217, 0.1) 41px);
+        }
+    </style>
+</head>
+<body class="pb-20">
+
+    <header class="p-6 flex justify-between items-center sticky top-0 bg-[#0f051d] z-50">
+        <h1 class="text-2xl font-bold tracking-tighter text-purple-400">TRADEE.</h1>
+        <div class="flex gap-4">
+            <i data-lucide="bell" class="w-6 h-6"></i>
+            <div class="w-8 h-8 rounded-full purple-gradient border-2 border-purple-300"></div>
+        </div>
+    </header>
+
+    <section class="px-6 mb-8">
+        <div class="purple-gradient p-6 rounded-3xl shadow-2xl relative overflow-hidden">
+            <h2 class="text-3xl font-extrabold mb-2">Trade Smarter.</h2>
+            <p class="text-purple-100 text-sm opacity-80 mb-4">The only app where your crypto gains buy your dinner.</p>
+            <button class="bg-white text-purple-900 px-6 py-2 rounded-full font-bold text-sm">Get Started</button>
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
+        </div>
+    </section>
+
+    <section class="px-6 mb-8">
+        <div class="flex justify-between items-end mb-4">
+            <div>
+                <p class="text-xs text-gray-400 uppercase">Bitcoin / USDT</p>
+                <h3 class="text-2xl font-mono">$64,231.50 <span class="text-green-400 text-sm">+2.4%</span></h3>
+            </div>
+            <div class="flex gap-2 text-xs">
+                <span class="px-2 py-1 glass rounded">1H</span>
+                <span class="px-2 py-1 purple-gradient rounded">1D</span>
+                <span class="px-2 py-1 glass rounded">1W</span>
+            </div>
+        </div>
+        <div class="glass rounded-3xl p-4 trading-chart relative flex items-center justify-center">
+            <svg viewBox="0 0 400 150" class="w-full h-full">
+                <path d="M0,120 Q50,50 100,100 T200,80 T300,40 T400,60" fill="none" stroke="#a855f7" stroke-width="4" />
+            </svg>
+        </div>
+    </section>
+
+    <section class="px-6">
+        <h4 class="text-lg font-bold mb-4">Lifestyle & Rewards</h4>
+        
+        <div class="grid grid-cols-3 gap-4 mb-6">
+            <a href="https://www.kfcpakistan.com" target="_blank" class="glass p-4 rounded-2xl flex flex-col items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/b/bf/KFC_logo.svg/1200px-KFC_logo.svg.png" class="w-10 h-10 mb-2 object-contain">
+                <span class="text-[10px]">KFC Deals</span>
+            </a>
+            <a href="https://www.mcdonalds.com.pk" target="_blank" class="glass p-4 rounded-2xl flex flex-col items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/McDonald%27s_Golden_Arches.svg/1200px-McDonald%27s_Golden_Arches.svg.png" class="w-10 h-10 mb-2 object-contain">
+                <span class="text-[10px]">McD Deals</span>
+            </a>
+            <a href="https://www.kababjees.com" target="_blank" class="glass p-4 rounded-2xl flex flex-col items-center text-center">
+                <div class="w-10 h-10 bg-yellow-600 rounded-full mb-2 flex items-center justify-center font-bold text-xs">K</div>
+                <span class="text-[10px]">Kababjees</span>
+            </a>
+        </div>
+
+        <h5 class="text-sm font-semibold text-gray-400 mb-3">Shop with Daraz</h5>
+        <div class="space-y-3">
+            <a href="https://www.daraz.pk/womens-dresses/" target="_blank" class="glass p-4 rounded-2xl flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="shopping-bag" class="text-pink-400"></i>
+                    <span>Latest Dresses</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </a>
+            <a href="https://www.daraz.pk/womens-jewellery/" target="_blank" class="glass p-4 rounded-2xl flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="gem" class="text-blue-400"></i>
+                    <span>Jewelry & Makeup</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </a>
+            <a href="https://www.daraz.pk/mens-shoes/" target="_blank" class="glass p-4 rounded-2xl flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="footprints" class="text-green-400"></i>
+                    <span>Footwear Collection</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </a>
+        </div>
+    </section>
+
+    <nav class="fixed bottom-0 w-full glass border-t border-white/10 px-8 py-4 flex justify-between items-center rounded-t-3xl">
+        <i data-lucide="trending-up" class="text-purple-400"></i>
+        <i data-lucide="wallet" class="text-gray-500"></i>
+        <div class="w-12 h-12 purple-gradient rounded-full flex items-center justify-center -mt-10 shadow-lg border-4 border-[#0f051d]">
+            <i data-lucide="arrow-left-right" class="text-white"></i>
+        </div>
+        <i data-lucide="shopping-cart" class="text-gray-500"></i>
+        <i data-lucide="user" class="text-gray-500"></i>
+    </nav>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
