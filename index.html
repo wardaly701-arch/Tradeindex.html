@@ -3,26 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tradee - Crypto, Games & Lifestyle</title>
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <title>Tradee | The Ultimate Super App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --bg-dark: #0f0c29;
-            --accent-purple: #9d50bb;
-            --neon-blue: #00d2ff;
-            --text-white: #f8f9fa;
+            --purple-glow: #6a11cb;
+            --purple-light: #9d50bb;
+            --accent-pink: #ff00cc;
+            --glass: rgba(255, 255, 255, 0.1);
         }
 
         body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: var(--text-white);
+            color: white;
+            overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* Welcome Page */
+        /* --- Section 1: Welcome & Auth --- */
         #welcome-screen {
             height: 100vh;
             display: flex;
@@ -30,204 +32,176 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            background: radial-gradient(circle at center, var(--purple-light) 0%, transparent 70%);
         }
 
-        .hero-text {
-            font-size: 4rem;
-            background: linear-gradient(to right, #00d2ff, #9d50bb);
+        .logo-text {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--accent-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: bold;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #9d50bb; }
-            to { text-shadow: 0 0 20px #00d2ff, 0 0 30px #9d50bb; }
-        }
-
-        .btn {
-            background: var(--accent-purple);
-            color: white;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-
-        .btn:hover { transform: scale(1.1); box-shadow: 0 0 15px var(--accent-purple); }
-
-        /* Main Dashboard (Hidden initially) */
-        #main-dashboard { display: none; padding: 20px; }
-
-        .navbar {
-            display: flex;
-            justify-content: space-around;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            margin-bottom: 20px;
-        }
-
-        .nav-item { color: white; cursor: pointer; font-weight: bold; }
-
-        /* Grid Sections */
-        .grid-container {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
+            margin-bottom: 10px;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            background: linear-gradient(45deg, var(--purple-glow), var(--accent-pink));
+            color: white;
+            font-weight: bold;
+        }
+
+        button:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--accent-pink); }
+
+        /* --- Section 2: Dashboard --- */
+        #dashboard { display: none; padding: 20px; }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 12, 41, 0.9);
+        }
+
+        .tab-btn { background: transparent; border: 1px solid var(--purple-light); padding: 10px 20px; font-size: 0.9rem;}
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        /* Widgets */
+        .widget {
+            background: var(--glass);
             border-radius: 15px;
             padding: 20px;
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Trading Chart */
-        #chart-container { height: 400px; width: 100%; border-radius: 15px; overflow: hidden; }
+        .trading-chart { height: 400px; width: 100%; border-radius: 10px; overflow: hidden; }
 
-        /* Shopping & Food Ads */
-        .ad-scroll {
-            display: flex;
-            overflow-x: auto;
-            gap: 15px;
-            padding: 10px 0;
-        }
-
-        .ad-box {
-            min-width: 200px;
-            background: #1e1e2e;
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .ad-box img { width: 100%; border-radius: 5px; height: 100px; object-fit: cover; }
-
-        /* Hidden Sections */
-        .content-section { display: none; margin-top: 20px; }
-        .active-section { display: block; }
-
+        iframe { width: 100%; border: none; border-radius: 10px; height: 300px;}
+        
+        .deals-container { display: flex; overflow-x: auto; gap: 15px; padding-bottom: 10px; }
+        .deal-card { min-width: 150px; background: #1a1a1a; padding: 10px; border-radius: 10px; text-align: center;}
+        .deal-card img { width: 50px; height: 50px; }
     </style>
 </head>
 <body>
 
-    <div id="welcome-screen">
-        <h1 class="hero-text">Tradee</h1>
-        <p style="font-size: 1.5rem;">The Best App for You</p>
+    <section id="welcome-screen">
+        <h1 class="logo-text">Tradee</h1>
+        <p style="font-size: 1.5rem; opacity: 0.8;">The best app for you.</p>
         
-        <div id="account-form" style="margin-top: 20px;">
-            <input type="text" placeholder="Username" style="padding: 10px; border-radius: 5px; border:none;"><br><br>
-            <input type="password" placeholder="Password" style="padding: 10px; border-radius: 5px; border:none;"><br>
-            <button class="btn" onclick="startApp()">Start Trading Now</button>
+        <div class="card" id="auth-box">
+            <h3>Create Your Account</h3>
+            <input type="text" placeholder="Username" style="display:block; width: 100%; margin: 10px 0; padding: 10px; border-radius: 5px; border:none;"><br>
+            <input type="password" placeholder="Password" style="display:block; width: 100%; margin: 10px 0; padding: 10px; border-radius: 5px; border:none;"><br>
+            <button onclick="startApp()">Start Trading Now</button>
         </div>
-    </div>
+    </section>
 
-    <div id="main-dashboard">
-        <nav class="navbar">
-            <div class="nav-item" onclick="showSection('trading')">📈 Trading</div>
-            <div class="nav-item" onclick="showSection('shopping')">🛍️ Shopping</div>
-            <div class="nav-item" onclick="showSection('snacks')">🍔 Snacks</div>
-            <div class="nav-item" onclick="showSection('games')">🎮 Games</div>
-            <div class="nav-item" onclick="showSection('music')">🎵 Music</div>
-        </nav>
+    <section id="dashboard">
+        <div class="nav-tabs">
+            <button class="tab-btn" onclick="showSection('trading')"><i class="fas fa-chart-line"></i> Trading</button>
+            <button class="tab-btn" onclick="showSection('snacks')"><i class="fas fa-hamburger"></i> Snacks</button>
+            <button class="tab-btn" onclick="showSection('shopping')"><i class="fas fa-shopping-bag"></i> Shopping</button>
+            <button class="tab-btn" onclick="showSection('entertainment')"><i class="fas fa-gamepad"></i> Games & Music</button>
+        </div>
 
-        <div id="trading" class="content-section active-section">
-            <div class="grid-container">
-                <div class="card">
-                    <h3>Live Crypto Market</h3>
-                    <div id="chart-container"></div>
+        <div class="grid-container">
+            <div class="widget" style="grid-column: span 2;">
+                <h2>Live Crypto Market</h2>
+                <div class="trading-chart">
+                    <div class="tradingview-widget-container">
+                        <div id="tradingview_12345"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                        <script type="text/javascript">
+                        new TradingView.widget({
+                          "autosize": true,
+                          "symbol": "BINANCE:BTCUSDT",
+                          "interval": "D",
+                          "timezone": "Etc/UTC",
+                          "theme": "dark",
+                          "style": "1",
+                          "locale": "en",
+                          "toolbar_bg": "#f1f3f6",
+                          "enable_publishing": false,
+                          "allow_symbol_change": true,
+                          "container_id": "tradingview_12345"
+                        });
+                        </script>
+                    </div>
                 </div>
-                <div class="card">
-                    <h3>Quick Trade</h3>
-                    <p>Bitcoin (BTC): <span id="btc-price" style="color: #00ff00;">$Loading...</span></p>
-                    <button class="btn" style="width: 100%;" onclick="alert('Trade Executed!')">START TRADE</button>
+                <button style="margin-top:20px; width:100%;">START TRADING PROCEDURE</button>
+            </div>
+
+            <div class="widget">
+                <h2>Tradee Beats (Spotify)</h2>
+                <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX0S06siFu07A?utm_source=generator&theme=0" height="380" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </div>
+
+            <div class="widget" style="grid-column: span 3;">
+                <h2>Hot Deals (KFC, McD, Dominos)</h2>
+                <div class="deals-container">
+                    <div class="deal-card"><img src="https://upload.wikimedia.org/wikipedia/sco/b/bf/KFC_logo.svg" alt="KFC"><p>Zinger Deal $5</p><a href="https://www.kfcpakistan.com/" target="_blank">Order Now</a></div>
+                    <div class="deal-card"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" alt="McD"><p>Big Mac 1+1</p><a href="https://www.mcdonalds.com.pk/" target="_blank">Order Now</a></div>
+                    <div class="deal-card"><img src="https://upload.wikimedia.org/wikipedia/commons/7/74/Dominos_pizza_logo.svg" alt="Dominos"><p>Buy 1 Get 1 Free</p><a href="https://www.dominos.com.pk/" target="_blank">Order Now</a></div>
+                    <div class="deal-card"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Pizza_Hut_logo.svg" alt="Pizza Hut"><p>Lunch Box Deal</p><a href="https://www.pizzahut.com.pk/" target="_blank">Order Now</a></div>
+                </div>
+            </div>
+
+            <div class="widget" style="grid-column: span 3;">
+                <h2>Quick Games</h2>
+                <div class="deals-container">
+                    <button class="tab-btn" onclick="window.open('https://www.google.com/logos/2010/pacman10-i.html')">PacMan</button>
+                    <button class="tab-btn" onclick="window.open('https://playtictactoe.org/')">Tic Tac Toe</button>
+                    <button class="tab-btn" onclick="window.open('https://www.bubble-shooter.com/')">Bubble Shooter</button>
+                    <button class="tab-btn" onclick="window.open('https://www.arkadium.com/games/candy-crush/')">Candy Crush</button>
+                </div>
+            </div>
+
+            <div class="widget" style="grid-column: span 3;">
+                <h2>Shop on Daraz & Amazon</h2>
+                <div class="deals-container">
+                    <div class="deal-card"><i class="fas fa-tshirt fa-2x"></i><p>Dresses</p><a href="https://www.amazon.com/s?k=dresses" target="_blank">Amazon</a></div>
+                    <div class="deal-card"><i class="fas fa-gem fa-2x"></i><p>Jewelry</p><a href="https://www.daraz.pk/jewelry/" target="_blank">Daraz</a></div>
+                    <div class="deal-card"><i class="fas fa-paint-brush fa-2x"></i><p>Makeup</p><a href="https://www.amazon.com/makeup" target="_blank">Amazon</a></div>
                 </div>
             </div>
         </div>
-
-        <div id="shopping" class="content-section">
-            <div class="card">
-                <h2>Fashion & Lifestyle</h2>
-                <div class="ad-scroll">
-                    <div class="ad-box"><a href="https://www.daraz.pk" target="_blank"><img src="https://via.placeholder.com/200x100?text=Daraz+Dresses" alt="Daraz"><h4>Daraz Collection</h4></a></div>
-                    <div class="ad-box"><a href="https://www.amazon.com" target="_blank"><img src="https://via.placeholder.com/200x100?text=Amazon+Makeup" alt="Amazon"><h4>Amazon Jewelry</h4></a></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="snacks" class="content-section">
-            <div class="card">
-                <h2>Fast Food Deals</h2>
-                <div class="ad-scroll">
-                    <div class="ad-box"><a href="https://www.kfc.com" target="_blank"><h4>KFC Bucket</h4><p>Flat 20% OFF</p></a></div>
-                    <div class="ad-box"><a href="https://www.mcdonalds.com" target="_blank"><h4>McSaver Meal</h4><p>Free Delivery</p></a></div>
-                    <div class="ad-box"><a href="https://www.dominos.com.pk" target="_blank"><h4>Dominos</h4><p>Buy 1 Get 1</p></a></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="games" class="content-section">
-            <div class="card">
-                <h2>Arcade Hub</h2>
-                <div class="ad-scroll">
-                    <div class="ad-box" onclick="alert('Launching Candy Crush Link...')">🍬 Candy Crush</div>
-                    <div class="ad-box" onclick="alert('Launching Tic Tac Toe...')">⭕ Tic Tac Toe</div>
-                    <div class="ad-box" onclick="alert('Launching Bubble Shooter...')">🫧 Bubble Shooter</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="music" class="content-section">
-            <div class="card">
-                <h2>Spotify Player</h2>
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM3M?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-        </div>
-
-    </div>
+    </section>
 
     <script>
         function startApp() {
             document.getElementById('welcome-screen').style.display = 'none';
-            document.getElementById('main-dashboard').style.display = 'block';
-            
-            // Initialize TradingView Chart
-            new TradingView.widget({
-                "width": "100%",
-                "height": 400,
-                "symbol": "BINANCE:BTCUSDT",
-                "interval": "D",
-                "timezone": "Etc/UTC",
-                "theme": "dark",
-                "style": "1",
-                "locale": "en",
-                "toolbar_bg": "#f1f3f6",
-                "enable_publishing": false,
-                "allow_symbol_change": true,
-                "container_id": "chart-container"
-            });
+            document.getElementById('dashboard').style.display = 'block';
         }
 
-        function showSection(sectionId) {
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(s => s.classList.remove('active-section'));
-            document.getElementById(sectionId).classList.add('active-section');
+        function showSection(section) {
+            alert("Taking you to " + section + " section...");
+            // Real logic to scroll or filter items would go here
         }
-
-        // Fake Live Price Update
-        setInterval(() => {
-            const price = 65000 + Math.random() * 1000;
-            document.getElementById('btc-price').innerText = "$" + price.toFixed(2);
-        }, 3000);
     </script>
 </body>
-</html>
+    </html>
 
