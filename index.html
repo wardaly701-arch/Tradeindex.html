@@ -3,126 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tradee - The Ultimate Trading & Lifestyle App</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Tradee - Crypto, Games & Lifestyle</title>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #1a0b2e; color: white; overflow-x: hidden; }
-        .purple-gradient { background: linear-gradient(135deg, #2d0b5a 0%, #1a0b2e 100%); }
-        .neon-glow { text-shadow: 0 0 10px #bc13fe, 0 0 20px #bc13fe; }
-        .card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; }
-        .btn-primary { background: #bc13fe; transition: 0.3s; }
-        .btn-primary:hover { background: #9d10d8; transform: scale(1.05); }
-        .hidden-section { display: none; }
+        :root {
+            --bg-dark: #0f0c29;
+            --accent-purple: #9d50bb;
+            --neon-blue: #00d2ff;
+            --text-white: #f8f9fa;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: var(--text-white);
+            scroll-behavior: smooth;
+        }
+
+        /* Welcome Page */
+        #welcome-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-text {
+            font-size: 4rem;
+            background: linear-gradient(to right, #00d2ff, #9d50bb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #9d50bb; }
+            to { text-shadow: 0 0 20px #00d2ff, 0 0 30px #9d50bb; }
+        }
+
+        .btn {
+            background: var(--accent-purple);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover { transform: scale(1.1); box-shadow: 0 0 15px var(--accent-purple); }
+
+        /* Main Dashboard (Hidden initially) */
+        #main-dashboard { display: none; padding: 20px; }
+
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+
+        .nav-item { color: white; cursor: pointer; font-weight: bold; }
+
+        /* Grid Sections */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Trading Chart */
+        #chart-container { height: 400px; width: 100%; border-radius: 15px; overflow: hidden; }
+
+        /* Shopping & Food Ads */
+        .ad-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .ad-box {
+            min-width: 200px;
+            background: #1e1e2e;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .ad-box img { width: 100%; border-radius: 5px; height: 100px; object-fit: cover; }
+
+        /* Hidden Sections */
+        .content-section { display: none; margin-top: 20px; }
+        .active-section { display: block; }
+
     </style>
 </head>
 <body>
 
-    <div id="welcome-screen" class="min-h-screen flex flex-col items-center justify-center text-center p-6">
-        <h1 class="text-6xl font-extrabold mb-4 neon-glow italic">Tradee</h1>
-        <p class="text-xl mb-8 text-purple-200">The best app for you. Trading, Shopping, and Fun in one place.</p>
+    <div id="welcome-screen">
+        <h1 class="hero-text">Tradee</h1>
+        <p style="font-size: 1.5rem;">The Best App for You</p>
         
-        <div class="card p-8 w-full max-w-md">
-            <h2 class="text-2xl mb-4 font-bold">Create Account</h2>
-            <input type="text" placeholder="Full Name" class="w-full p-3 mb-3 rounded bg-white/10 border border-white/20 text-white outline-none">
-            <input type="email" placeholder="Email Address" class="w-full p-3 mb-6 rounded bg-white/10 border border-white/20 text-white outline-none">
-            <button onclick="showDashboard()" class="btn-primary w-full py-3 rounded-full font-bold uppercase tracking-widest">Start Trading Now</button>
+        <div id="account-form" style="margin-top: 20px;">
+            <input type="text" placeholder="Username" style="padding: 10px; border-radius: 5px; border:none;"><br><br>
+            <input type="password" placeholder="Password" style="padding: 10px; border-radius: 5px; border:none;"><br>
+            <button class="btn" onclick="startApp()">Start Trading Now</button>
         </div>
     </div>
 
-    <div id="dashboard" class="hidden-section">
-        <nav class="p-6 flex justify-between items-center border-b border-white/10 sticky top-0 bg-[#1a0b2e] z-50">
-            <h2 class="text-2xl font-bold neon-glow">Tradee</h2>
-            <div class="space-x-6 hidden md:flex">
-                <a href="#trading" class="hover:text-purple-400">Trade</a>
-                <a href="#deals" class="hover:text-purple-400">Snacks</a>
-                <a href="#shopping" class="hover:text-purple-400">Shop</a>
-                <a href="#games" class="hover:text-purple-400">Play</a>
-            </div>
-            <div class="text-sm bg-green-500/20 text-green-400 px-4 py-1 rounded-full border border-green-500/50">Wallet: $10,250.00</div>
+    <div id="main-dashboard">
+        <nav class="navbar">
+            <div class="nav-item" onclick="showSection('trading')">📈 Trading</div>
+            <div class="nav-item" onclick="showSection('shopping')">🛍️ Shopping</div>
+            <div class="nav-item" onclick="showSection('snacks')">🍔 Snacks</div>
+            <div class="nav-item" onclick="showSection('games')">🎮 Games</div>
+            <div class="nav-item" onclick="showSection('music')">🎵 Music</div>
         </nav>
 
-        <section id="trading" class="p-6">
-            <h3 class="text-3xl font-bold mb-6">Market Overview</h3>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 card p-4 h-[500px]">
-                    <div class="tradingview-widget-container" style="height:100%;width:100%">
-                        <iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/embed-widget/advanced-chart/?symbol=BINANCE:BTCUSDT&theme=dark&style=1&locale=en" style="width: 100%; height: 100%;"></iframe>
-                    </div>
+        <div id="trading" class="content-section active-section">
+            <div class="grid-container">
+                <div class="card">
+                    <h3>Live Crypto Market</h3>
+                    <div id="chart-container"></div>
                 </div>
-                <div class="card p-6 flex flex-col justify-between">
-                    <div>
-                        <h4 class="text-xl font-bold mb-4">Quick Trade</h4>
-                        <div class="flex justify-between mb-2"><span>BTC Price:</span> <span class="text-green-400">$64,231.50</span></div>
-                        <input type="number" placeholder="Amount in USD" class="w-full p-3 rounded bg-black/30 border border-white/10 mb-4">
-                        <button class="w-full bg-green-500 py-3 rounded font-bold mb-2">BUY</button>
-                        <button class="w-full bg-red-500 py-3 rounded font-bold">SELL</button>
-                    </div>
-                    <div class="mt-6 p-4 bg-purple-900/30 rounded-lg">
-                        <p class="text-sm italic">"The trend is your friend. Happy Trading!"</p>
-                    </div>
+                <div class="card">
+                    <h3>Quick Trade</h3>
+                    <p>Bitcoin (BTC): <span id="btc-price" style="color: #00ff00;">$Loading...</span></p>
+                    <button class="btn" style="width: 100%;" onclick="alert('Trade Executed!')">START TRADE</button>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="deals" class="p-6 bg-white/5 mt-10">
-            <h3 class="text-3xl font-bold mb-6">Snack Deals (Ads)</h3>
-            <div class="flex space-x-4 overflow-x-auto pb-4">
-                <div class="min-w-[250px] card p-4 border-red-500/50">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=300" class="rounded-lg mb-2">
-                    <h5 class="font-bold">KFC Mighty Deal</h5>
-                    <p class="text-sm text-gray-400">Buy 1 Get 1 Free!</p>
-                    <a href="https://www.kfcpakistan.com" target="_blank" class="text-red-400 text-xs mt-2 block">Order Now &rarr;</a>
-                </div>
-                <div class="min-w-[250px] card p-4 border-yellow-500/50">
-                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300" class="rounded-lg mb-2">
-                    <h5 class="font-bold">McDonald's Combo</h5>
-                    <p class="text-sm text-gray-400">Free Fries with Big Mac</p>
-                    <a href="https://www.mcdonalds.com.pk" target="_blank" class="text-yellow-400 text-xs mt-2 block">Order Now &rarr;</a>
-                </div>
-                <div class="min-w-[250px] card p-4 border-green-500/50">
-                    <h5 class="font-bold">Kababjees Special</h5>
-                    <p class="text-sm text-gray-400">20% Off on Platter</p>
-                    <a href="https://www.kababjees.com" target="_blank" class="text-green-400 text-xs mt-2 block">Order Now &rarr;</a>
+        <div id="shopping" class="content-section">
+            <div class="card">
+                <h2>Fashion & Lifestyle</h2>
+                <div class="ad-scroll">
+                    <div class="ad-box"><a href="https://www.daraz.pk" target="_blank"><img src="https://via.placeholder.com/200x100?text=Daraz+Dresses" alt="Daraz"><h4>Daraz Collection</h4></a></div>
+                    <div class="ad-box"><a href="https://www.amazon.com" target="_blank"><img src="https://via.placeholder.com/200x100?text=Amazon+Makeup" alt="Amazon"><h4>Amazon Jewelry</h4></a></div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="shopping" class="p-6">
-            <h3 class="text-3xl font-bold mb-6">Shop Essentials</h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                <a href="https://www.daraz.pk" target="_blank" class="card p-4 hover:bg-white/10">👗 Dresses</a>
-                <a href="https://www.amazon.com" target="_blank" class="card p-4 hover:bg-white/10">💍 Jewelry</a>
-                <a href="https://www.daraz.pk" target="_blank" class="card p-4 hover:bg-white/10">💄 Makeup</a>
-                <a href="https://www.amazon.com" target="_blank" class="card p-4 hover:bg-white/10">👟 Shoes</a>
+        <div id="snacks" class="content-section">
+            <div class="card">
+                <h2>Fast Food Deals</h2>
+                <div class="ad-scroll">
+                    <div class="ad-box"><a href="https://www.kfc.com" target="_blank"><h4>KFC Bucket</h4><p>Flat 20% OFF</p></a></div>
+                    <div class="ad-box"><a href="https://www.mcdonalds.com" target="_blank"><h4>McSaver Meal</h4><p>Free Delivery</p></a></div>
+                    <div class="ad-box"><a href="https://www.dominos.com.pk" target="_blank"><h4>Dominos</h4><p>Buy 1 Get 1</p></a></div>
+                </div>
             </div>
-        </section>
+        </div>
 
-        <section id="games" class="p-6 mb-20">
-            <h3 class="text-3xl font-bold mb-6">Tradee Games Hub</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="card p-6 text-center border-blue-500/30">
-                    <h5 class="text-xl font-bold mb-2">Bubble Shooter</h5>
-                    <a href="https://www.bubbleshooter.net" target="_blank" class="btn-primary px-6 py-2 rounded inline-block">Play Now</a>
-                </div>
-                <div class="card p-6 text-center border-pink-500/30">
-                    <h5 class="text-xl font-bold mb-2">Candy Crush</h5>
-                    <a href="https://www.king.com/game/candycrush" target="_blank" class="btn-primary px-6 py-2 rounded inline-block">Play Now</a>
-                </div>
-                <div class="card p-6 text-center border-orange-500/30">
-                    <h5 class="text-xl font-bold mb-2">Tic Tac Toe</h5>
-                    <a href="https://playtictactoe.org" target="_blank" class="btn-primary px-6 py-2 rounded inline-block">Play Now</a>
+        <div id="games" class="content-section">
+            <div class="card">
+                <h2>Arcade Hub</h2>
+                <div class="ad-scroll">
+                    <div class="ad-box" onclick="alert('Launching Candy Crush Link...')">🍬 Candy Crush</div>
+                    <div class="ad-box" onclick="alert('Launching Tic Tac Toe...')">⭕ Tic Tac Toe</div>
+                    <div class="ad-box" onclick="alert('Launching Bubble Shooter...')">🫧 Bubble Shooter</div>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <div id="music" class="content-section">
+            <div class="card">
+                <h2>Spotify Player</h2>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM3M?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        function showDashboard() {
-            document.getElementById('welcome-screen').classList.add('hidden-section');
-            document.getElementById('dashboard').classList.remove('hidden-section');
+        function startApp() {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('main-dashboard').style.display = 'block';
+            
+            // Initialize TradingView Chart
+            new TradingView.widget({
+                "width": "100%",
+                "height": 400,
+                "symbol": "BINANCE:BTCUSDT",
+                "interval": "D",
+                "timezone": "Etc/UTC",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "toolbar_bg": "#f1f3f6",
+                "enable_publishing": false,
+                "allow_symbol_change": true,
+                "container_id": "chart-container"
+            });
         }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(s => s.classList.remove('active-section'));
+            document.getElementById(sectionId).classList.add('active-section');
+        }
+
+        // Fake Live Price Update
+        setInterval(() => {
+            const price = 65000 + Math.random() * 1000;
+            document.getElementById('btc-price').innerText = "$" + price.toFixed(2);
+        }, 3000);
     </script>
 </body>
-    </html>
+</html>
 
